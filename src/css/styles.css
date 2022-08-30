@@ -11,6 +11,9 @@ body {
   color: #212121;
   line-height: 1.5;
 }
+ul {
+  margin: 0;
+}
 
 #search-box {
   font: inherit;
@@ -18,3 +21,11 @@ body {
   max-width: 320px;
   margin-bottom: 16px;
 }
+/* .country-list {
+  height: 30px;
+  background-color: burlywood;
+}
+.country-info {
+  height: 30px;
+  background-color: rgb(200, 216, 219);
+} */
