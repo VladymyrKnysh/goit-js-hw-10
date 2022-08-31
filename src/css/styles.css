@@ -11,8 +11,11 @@ body {
   color: #212121;
   line-height: 1.5;
 }
-ul {
+ul,
+p {
   margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 #search-box {
@@ -21,11 +24,12 @@ ul {
   max-width: 320px;
   margin-bottom: 16px;
 }
-/* .country-list {
-  height: 30px;
-  background-color: burlywood;
+
+.country-item {
+  display: flex;
+  margin-bottom: 5px;
+  align-items: center;
 }
-.country-info {
-  height: 30px;
-  background-color: rgb(200, 216, 219);
-} */
+.country-title {
+  margin-left: 20px;
+}
