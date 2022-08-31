@@ -31,5 +31,10 @@ p {
   align-items: center;
 }
 .country-title {
-  margin-left: 20px;
+  margin-left: 5px;
+}
+
+.country-title-info {
+  font-size: 24px;
+  font-weight: bold;
 }

@@ -1,6 +1,6 @@
 import './css/styles.css';
+import Notiflix from 'notiflix';
 import debounce from 'lodash.debounce';
-// import Notiflix from 'notiflix';
 const DEBOUNCE_DELAY = 300;
 
 const inputEl = document.querySelector('#search-box')
@@ -10,7 +10,7 @@ const listEl = document.querySelector('.country-list')
 inputEl.addEventListener('input', debounce(onSearchboxInput, DEBOUNCE_DELAY))
 
 function onSearchboxInput() {
-    fetchCountries(inputEl.value)
+    fetchCountries(inputEl.value.trim())
 }
 
 
@@ -19,8 +19,10 @@ function fetchCountries(name) {
 fetch(`https://restcountries.com/v3.1/name/${name}?fields=name,capital,population,flags,languages`)
     .then(resolve => resolve.json())
     .then(countries => {
-        if (countries.length > 5) {
-          return  alert('Слишком много совпадений')
+        if (countries.length > 10) {
+         return Notiflix.Notify.warning("Too many matches found. Please enter a more specific name.");
+        } else if(countries.length === 1) {
+listEl.classList.add('country-title-info')
         }
         const marcup = countries
             .map(({ name, capital, population, flags, languages }) =>
@@ -36,7 +38,3 @@ fetch(`https://restcountries.com/v3.1/name/${name}?fields=name,capital,populatio
 }
 
 
-//    for (const country of countries) {
-//             const marcup = `<li><img src="${country.flags.svg}" alt="flag" width = "80" height = "80" ></li>`
-//            
-//         }
