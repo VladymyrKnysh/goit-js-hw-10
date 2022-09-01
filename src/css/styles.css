@@ -12,7 +12,8 @@ body {
   line-height: 1.5;
 }
 ul,
-p {
+p,
+h2 {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -34,7 +35,13 @@ p {
   margin-left: 5px;
 }
 
-.country-title-info {
-  font-size: 24px;
+.country-info-box {
+  display: flex;
+  align-items: center;
+}
+.country-info-span {
   font-weight: bold;
+}
+.country-info-title {
+  margin-left: 5px;
 }

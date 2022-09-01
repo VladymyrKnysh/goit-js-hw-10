@@ -5,12 +5,17 @@ const DEBOUNCE_DELAY = 300;
 
 const inputEl = document.querySelector('#search-box')
 const listEl = document.querySelector('.country-list')
+const infoBox = document.querySelector('.country-info')
+
+
 
 
 inputEl.addEventListener('input', debounce(onSearchboxInput, DEBOUNCE_DELAY))
 
 function onSearchboxInput() {
+  
     fetchCountries(inputEl.value.trim())
+    
 }
 
 
@@ -20,21 +25,44 @@ fetch(`https://restcountries.com/v3.1/name/${name}?fields=name,capital,populatio
     .then(resolve => resolve.json())
     .then(countries => {
         if (countries.length > 10) {
-         return Notiflix.Notify.warning("Too many matches found. Please enter a more specific name.");
-        } else if(countries.length === 1) {
-listEl.classList.add('country-title-info')
-        }
-        const marcup = countries
-            .map(({ name, capital, population, flags, languages }) =>
-             `<li class="country-item">
-            <img src="${flags.svg}" alt="flag" width = "20" height = "15">
-            <p class="country-title">${name.common}</p>
-            </li>`)
+            listEl.innerHTML = ''
+            return Notiflix.Notify.warning("Too many matches found. Please enter a more specific name.");
+            
+        } else if (countries.length <= 10 & countries.length > 1) {
+                const marcup = countries
+            .map(({ name,flags,}) =>
+             `<li class="country-item"><img src="${flags.svg}" alt="flag" width = "20" height = "15"><p class="country-title">${name.common}</p></li>`)
             .join('')
-         listEl.innerHTML = marcup
-     console.log(countries.length);
+            listEl.innerHTML = marcup
+            infoBox.innerHTML = ''
+     
+        } else {
+            listEl.innerHTML = ''
+            const marcupInfo = countries
+                .map(({ name, capital, population, flags, languages }) =>
+                 `<div class="country-info-box">
+                    <img src="${flags.svg}" alt="flag" width="20" height="15">
+                     <h2 class = "country-info-title">${name.common}</h2>
+                    </div>
+                    <ul class="country-info-list">
+                    <li class="country-info-item"><span class="country-info-span">Capital:</span> ${capital}</li>
+                    <li class="country-info-item"><span class="country-info-span">Population:</span> ${population}</li>
+                    <li class="country-info-item"><span class="country-info-span">Languages:</span> ${Object.values(languages)}</li>
+                    </ul>`)
+                .join('')
+            infoBox.innerHTML = marcupInfo
+            
+            
+        }
+
+    
     })
-.catch(error => console.log(error))
+    .catch(error => {
+        listEl.innerHTML = ''
+        infoBox.innerHTML = ''
+        console.log(error);
+        Notiflix.Notify.failure("Oops, there is no country with that name")
+})
 }
 
 
