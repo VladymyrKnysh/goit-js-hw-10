@@ -9,12 +9,18 @@ const listEl = document.querySelector('.country-list')
 const infoBox = document.querySelector('.country-info')
 
 inputEl.addEventListener('input', debounce(onSearchboxInput, DEBOUNCE_DELAY))
-
+ 
 function onSearchboxInput() {
-   fetchCountries(inputEl.value.trim())
+  let inputValue = inputEl.value.trim()
+  if (!inputValue) {
+    infoBox.innerHTML = ''
+    listEl.innerHTML = ''
+    return
+  }
+   fetchCountries(inputValue)
    .then(resolve => {
         if (!resolve.ok) {
-        throw new Error(resolve.status);
+          throw new Error(resolve.status || resolve.status === 404);
       }
         return resolve.json()   
     } )
@@ -59,7 +65,7 @@ function renderMarcupBox(countries) {
                     <ul class="country-info-list">
                     <li class="country-info-item"><span class="country-info-span">Capital:</span> ${capital}</li>
                     <li class="country-info-item"><span class="country-info-span">Population:</span> ${population}</li>
-                    <li class="country-info-item"><span class="country-info-span">Languages:</span> ${Object.values(languages)}</li>
+                    <li class="country-info-item"><span class="country-info-span">Languages:</span> ${Object.values(languages).join(',  ')}</li>
                     </ul>`)
                 .join('')
             infoBox.innerHTML = marcup
